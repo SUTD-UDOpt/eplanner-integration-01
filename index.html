@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mini UDOpt_2305</title> 
+        <script type="module" src="https://js.arcgis.com/calcite-components/1.0.3/calcite.esm.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://js.arcgis.com/calcite-components/1.0.3/calcite.css">
+        <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    </head>
+
+    <body>
+        <div id="viewDiv"></div>
+        <div id="resultDiv" class="esri-widget mainDiv top right" style="width: 500px;">
+          <b>Result Panel</b><br />
+          <div id="resultA">
+            <div id="treeContainer">
+              <div id="treeContainerDepth" style="width: auto; max-width: 100%; height: 100%; display: none;"></div>
+              <div id="treeContainerGen" style="width: auto; max-width: 100%; height: 100%; display: none;"></div>
+            </div>
+            <div class="geometry-options" id="treeButtons">
+              <button class="esri-button" id="offsetSol" style="margin: 10px;">Display Final</button>
+              <button class="esri-button" id="treeGen" style="margin: 10px;">Display Full Tree</button>
+              <button class="esri-button" id="treeDepth" style="margin: 10px;">Display Depth Tree</button>
+            </div>
+            <div id="macros" style="margin-bottom: 10px;">
+              <b>Site Average</b><br />
+              <div id="macro3">Parcel area:</div>
+              <div id="macro4">Orientation:</div>
+              <div id="macro5">Elongation:</div>
+              <div id="macro6">Compactness:</div>
+              <div id="macro7">Convexity:</div>
+            </div>
+            <b>Parcel Stats</b><br />
+            <div id="text1">Parcel key:</div>
+            <div id="text2">Parcel depth:</div>
+            <div id="text3">Parcel area:</div>
+            <div id="text4">Orientation:</div>
+            <div id="text5">Elongation:</div>
+            <div id="text6">Compactness:</div>
+            <div id="text7">Convexity:</div>
+          </div>
+        </div>
+
+        <div id="queryDiv" class="esri-widget mainDiv bottom left" style="display: block;">
+          <b>Input Panel</b><br />
+          <br />
+          <div id="geometryContainer" class="geometry-options">
+            <button
+              class="esri-widget--button esri-icon-map-pin geometry-button"
+              id="point-geometry-button"
+              value="point"
+              title="Draw a point"
+              style="display: none;"
+            ></button>
+            <button
+              class="esri-widget--button esri-icon-polygon geometry-button"
+              id="polygon-geometry-button"
+              value="polygon"
+              title="Draw a polygon"
+            ></button>
+          </div>
+
+          <div id="sliderContainer" style="height: 500px; overflow-y: scroll; display: none;">
+            <br />
+            <tiny>Minimum Parcel Area (sqm)</tiny>
+            <calcite-slider id="minArea" value="10000" min="5000" max="40000" precise ticks="5000" label-handles max-label="40000sqm" min-label="5000sqm" snap="true" step="2500"></calcite-slider>
+            <br />
+            <tiny>Ideal Orientation (0 = N-S, 1 = W-E)</tiny>
+            <calcite-slider id="orientation" value="0" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+            <br />
+            <tiny>Percentage of Primary Roads (%)</tiny>
+            <calcite-slider id="pRoad" value="10" min="0" max="100" precise ticks="10" label-handles snap="true" step="5"></calcite-slider>
+            <br />
+            <tiny>Percentage of Secondary Roads (%)</tiny>
+            <calcite-slider id="sRoad" value="20" min="0" max="100" precise ticks="10" label-handles snap="true" step="5"></calcite-slider>
+            <br />
+            <br />
+            <div id="weightSliders">
+              <div><b>Weights</b></div>
+              <tiny>Divergence</tiny>
+              <calcite-slider id="w0" value="0.1" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Continuity</tiny>
+              <calcite-slider id="w1" value="0.1" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Singularity</tiny>
+              <calcite-slider id="w2" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Even Area</tiny>
+              <calcite-slider id="w3" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Elongation</tiny>
+              <calcite-slider id="w4" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Compactness</tiny>
+              <calcite-slider id="w5" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Convexity</tiny>
+              <calcite-slider id="w6" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <tiny>Orientation</tiny>
+              <calcite-slider id="w7" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+            </div>
+          </div>
+
+          <div id="measurementContainer">
+            <br />
+            <tiny>Measurement Tools</tiny>
+            <div id="toolbarDiv" class="esri-component esri-widget" style="margin-top: 10px;">
+              <button
+                id="distance"
+                class="esri-widget--button esri-interactive esri-icon-measure-line"
+                title="Distance Measurement Tool"
+              ></button>
+              <button
+                id="area"
+                class="esri-widget--button esri-interactive esri-icon-measure-area"
+                title="Area Measurement Tool"
+              ></button>
+              <button
+                id="clearMe"
+                class="esri-widget--button esri-interactive esri-icon-trash"
+                title="Clear Measurements"
+              ></button>
+            </div>
+          </div>
+          <!-- <br />
+          <button class="esri-button" id="test" type="button">
+            Test
+          </button> -->
+          <br />
+          <button class="esri-button limited" id="clearFilter" type="button">
+            Clear
+          </button>
+          <br />
+          <button class="esri-button limited darkBlue" id="actionButton" type="button">
+            Process Polygon
+          </button>
+        </div>
+
+        <div id="popup" class="popcontainer" style="display: none;">
+          <div id="darkbg" class="popbg"></div>
+
+          <div id="resetPrompt" class="pop" style="display: none;">
+            <input type="checkbox" id="reset1" name="resetOpt1">
+            <label for="reset1" id="resetOpt1label">Retain Polygon Selection</label><br>
+            <input type="checkbox" id="reset2" name="resetOpt2">
+            <label for="reset2" id="resetOpt2label">Retain Access Point Selection</label><br><br> 
+            <button class="esri-button" id="finalResetButton" type="button">
+              Reset
+            </button>
+          </div>
+        </div>
+        <div id="loader" style="display: none;"></div>
+      </body>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r126/three.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://js.arcgis.com/4.25/"></script>
+    <script src="static/js/general.js"></script>
+    <script src="static/js/treebuilder.js"></script>
+    <script src="static/js/functions.js"></script>
+    <script src="static/js/arcgis-components/arcgis-utility.js"></script>
+    <script src="static/js/arcgis-components/arcgis-setup.js"></script>
+    <script src="static/js/rhino-components/process-data.js"></script>
+    <script src="static/js/rhino-components/parcel-compute.js"></script>
+    <script src="static/js/script.js" type="module"></script>
+</html>
