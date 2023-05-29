@@ -55,7 +55,7 @@ require(["esri/Map", "esri/views/SceneView", "esri/layers/GraphicsLayer","esri/w
     rhino = m // global
 
     //RhinoCompute.url = 'http://localhost:8081/'; // RhinoCompute server url. Use http://localhost:8081 if debugging locally.
-    RhinoCompute.url = "http://54.255.237.109:80/"; // RhinoCompute server url. Use http://localhost:8081 if debugging locally.
+    RhinoCompute.url = "http://13.228.73.123:80/"; // RhinoCompute server url. Use http://localhost:8081 if debugging locally.
     RhinoCompute.apiKey = "0hOfevzxs49OfbXDqyUx" // RhinoCompute server api key. Leave blank if debugging locally.
 
     // load a grasshopper file!

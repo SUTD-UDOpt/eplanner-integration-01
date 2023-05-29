@@ -6,11 +6,9 @@ function zoomChanged(newValue, oldValue, property, object){
 
 // Call the appropriate DistanceMeasurement2D or DirectLineMeasurement3D
 function measureDistance() {
-    const type = activeView.type;
-    measurement.activeTool =
-        type.toUpperCase() === "2D" ? "distance" : "direct-line";
-        document.getElementById("distance").classList.add("active");
-        document.getElementById("area").classList.remove("active");
+    measurement.activeTool = "direct-line"
+    document.getElementById("distance").classList.add("active");
+    document.getElementById("area").classList.remove("active");
 }
 
 // Call the appropriate AreaMeasurement2D or AreaMeasurement3D
