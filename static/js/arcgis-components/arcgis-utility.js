@@ -176,61 +176,61 @@ function updateFilteronLoad(geom, Graphic, geometryEngine, FeatureFilter){
 }
 
 function processInArcGIS(Graphic, Polygon, res, num){
-     if (Object.keys(res.values[0].InnerTree).length > 0){
-        let data = res.values[0].InnerTree['{0;0;0;0;0}']
-        let coords = []
-        for (let i=0; i<data.length; i++){
-            let rawstr = JSON.parse(data[i].data).split(";")
-            let subCoords = []
-            for (let j=0; j<rawstr.length; j++){
-                var pt = rawstr[j].split(",")
-                pt = [parseFloat(pt[0]), parseFloat(pt[1]), 0.2]
-                subCoords.push(pt)
-            }
-            coords.push(subCoords)
-        }
+    if (Object.keys(res.values[0].InnerTree).length > 0){
+       let data = res.values[0].InnerTree['{0;0;0;0;0}']
+       let coords = []
+       for (let i=0; i<data.length; i++){
+           let rawstr = JSON.parse(data[i].data).split(";")
+           let subCoords = []
+           for (let j=0; j<rawstr.length; j++){
+               var pt = rawstr[j].split(",")
+               pt = [parseFloat(pt[0]), parseFloat(pt[1]), 0.2]
+               subCoords.push(pt)
+           }
+           coords.push(subCoords)
+       }
 
-        coords.forEach((e, index) => {
-            let graphic = createPolygon(Graphic, Polygon, e, parcelFillSymbol, index)
-            graphic.visible = false
-            dataTree[index]["graphic"] = graphic
-            treeLayer.add(graphic)
-        })
-    }
+       coords.forEach((e, index) => {
+           let graphic = createPolygon(Graphic, Polygon, e, parcelFillSymbol, index)
+           graphic.visible = false
+           dataTree[index]["graphic"] = graphic
+           treeLayer.add(graphic)
+       })
+   }
 
-    if (Object.keys(res.values[1].InnerTree).length > 0){
-      // NEED TO UPDATE ON MERGE: parcellation.gh should return 1 extra thing: basecoords string
-      let basedata = res.values[1].InnerTree['{1}']
-      let rawbase = JSON.parse(basedata[0].data).split(";")
-      let baseCoords = []
-      for (let i=0; i<rawbase.length; i++){
-        var pt = rawbase[i].split(",")
-        pt = [parseFloat(pt[0]), parseFloat(pt[1]), 0.1]
-        baseCoords.push(pt)
-      }
-      let basegraphic = createPolygon(Graphic, Polygon, baseCoords, baseFillSymbol, null)
-      saveData[num]['base'] = basegraphic
-      baseLayer.add(basegraphic)
+   if (Object.keys(res.values[3].InnerTree).length > 0){
+       // NEED TO UPDATE ON MERGE: parcellation.gh should return 1 extra thing: basecoords string
+       let basedata = res.values[1].InnerTree['{1}']
+       let rawbase = JSON.parse(basedata[0].data).split(";")
+       let baseCoords = []
+       for (let i=0; i<rawbase.length; i++){
+           var pt = rawbase[i].split(",")
+           pt = [parseFloat(pt[0]), parseFloat(pt[1]), 0.1]
+           baseCoords.push(pt)
+       }
+       let basegraphic = createPolygon(Graphic, Polygon, baseCoords, baseFillSymbol, null)
+       saveData[num]['base'] = basegraphic
+       baseLayer.add(basegraphic)
 
-      let data = res.values[1].InnerTree['{0;0;0;0;0}']
-      let coords = []
-      for (let i=0; i<data.length; i++){
-        let rawstr = JSON.parse(data[i].data).split(";")
-        let subCoords = []
-        for (let j=0; j<rawstr.length; j++){
-          var pt = rawstr[j].split(",")
-          pt = [parseFloat(pt[0]), parseFloat(pt[1]), 0.2]
-          subCoords.push(pt)
-        }
-        coords.push(subCoords)
-      }
+       let data = JSON.parse(JSON.parse(res.values[3].InnerTree['{0}'][0].data))
+       let dataKeys = Object.keys(data)
+       
+       let coords = []
+       for (let i=0; i<dataKeys.length; i++){
+           var subCoords = data[dataKeys[i]]["ParcelCoordinates"]
+           for (let j=0; j<subCoords.length; j++){
+               subCoords[j][2] = 0.2
+           }
+           coords.push(subCoords)
+       }
 
-      coords.forEach((e, index) => {
-        let graphic = createPolygon(Graphic, Polygon, e, parcelFillSymbol, index)
-        dataCol[index]["graphic"] = graphic
-        parcelLayer.add(graphic)
-      })
-    }
+
+       coords.forEach((e, index) => {
+           let graphic = createPolygon(Graphic, Polygon, e, parcelFillSymbol, index)
+           dataCol[index]["graphic"] = graphic
+           parcelLayer.add(graphic)
+       })
+   }
 }
 
 function createPolygon(Graphic, Polygon, ring, symbol, num){
