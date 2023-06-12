@@ -49,7 +49,7 @@ function setupLayers(FeatureLayer, GraphicsLayer){
 
     // Create the layer and set the renderer
     buildingLayer = new FeatureLayer({
-        url: "https://services5.arcgis.com/s71tOLTNP0DMzrOH/arcgis/rest/services/gis_osm_buildings_full/FeatureServer/0",
+        url: "https://services5.arcgis.com/s71tOLTNP0DMzrOH/arcgis/rest/services/gis_osm_buildings_permanent/FeatureServer/0",
         opacity: 0.8,
         renderer: featureRenderer
     });
