@@ -1,6 +1,6 @@
 async function compute(RhinoCompute, displaySlot, roadCat) {
-    let weightArr = []
-    for (let i=0; i<8; i++){
+    let weightArr = [0,0,0]
+    for (let i=0; i<5; i++){
         weightArr.push(document.getElementById("w" + i).value)
     }
 

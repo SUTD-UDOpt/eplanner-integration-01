@@ -66,7 +66,7 @@
             <calcite-slider id="minArea" value="10000" min="5000" max="40000" precise ticks="5000" label-handles max-label="40000sqm" min-label="5000sqm" snap="true" step="2500"></calcite-slider>
             <br />
             <tiny>Ideal Orientation (0 = N-S, 1 = W-E)</tiny>
-            <calcite-slider id="orientation" value="0" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+            <calcite-slider id="orientation" value="0" min="0" max="1" precise ticks="1" label-handles snap="true" step="1"></calcite-slider>
             <br />
             <tiny>Percentage of Primary Roads (%)</tiny>
             <calcite-slider id="pRoad" value="10" min="0" max="100" precise ticks="10" label-handles snap="true" step="5"></calcite-slider>
@@ -77,22 +77,16 @@
             <br />
             <div id="weightSliders">
               <div><b>Weights</b></div>
-              <tiny>Divergence</tiny>
-              <calcite-slider id="w0" value="0.1" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
-              <tiny>Continuity</tiny>
-              <calcite-slider id="w1" value="0.1" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
-              <tiny>Singularity</tiny>
-              <calcite-slider id="w2" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
               <tiny>Even Area</tiny>
-              <calcite-slider id="w3" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <calcite-slider id="w0" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
               <tiny>Elongation</tiny>
-              <calcite-slider id="w4" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <calcite-slider id="w1" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
               <tiny>Compactness</tiny>
-              <calcite-slider id="w5" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <calcite-slider id="w2" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
               <tiny>Convexity</tiny>
-              <calcite-slider id="w6" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <calcite-slider id="w3" value="0.5" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
               <tiny>Orientation</tiny>
-              <calcite-slider id="w7" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
+              <calcite-slider id="w4" value="0.8" min="0" max="1" precise ticks="0.1" label-handles snap="true" step="0.05"></calcite-slider>
             </div>
           </div>
 
